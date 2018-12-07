@@ -4,6 +4,7 @@
 
 .material-icons {
   cursor: pointer;
+  margin-left: 5px;
 }
 
 .collection-item {
@@ -13,4 +14,9 @@
 
 .delete-icon {
   color: red;
+}
+
+.vote-box {
+  display: flex;
+  align-items: center;
 }

@@ -1,22 +1,47 @@
 import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import { likeLyricMutation } from "../queries";
 
 export class LyricList extends Component {
+  onLike(likeLyric, lyricId) {
+    likeLyric({ variables: { id: lyricId } }).then(() => {
+      this.props.refetch();
+    });
+  }
+
   render() {
     return (
       <ul className="collection">
         {this.props.lyrics.map(lyric => {
-          return <LyricListItem key={lyric.id} content={lyric.content} />;
+          return (
+            <Mutation key={lyric.id} mutation={likeLyricMutation}>
+              {(likeLyric, { data }) => {
+                return (
+                  <LyricListItem
+                    content={lyric.content}
+                    onClick={() => this.onLike(likeLyric, lyric.id)}
+                    likes={lyric.likes}
+                  />
+                );
+              }}
+            </Mutation>
+          );
         })}
       </ul>
     );
   }
 }
 
-const LyricListItem = props => {
+const LyricListItem = ({ onClick, content, likes }) => {
   return (
     <li className="collection-item">
-      {props.content}
-      <i className="material-icons">thumb_up</i>
+      {content}
+      <div className="vote-box">
+        <i onClick={() => onClick()} className="material-icons">
+          thumb_up
+        </i>
+        {likes}
+      </div>
     </li>
   );
 };

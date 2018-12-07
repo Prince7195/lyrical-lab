@@ -23,7 +23,7 @@ export class SongDetails extends Component {
             return (
               <div>
                 <h3>{data.song.title}</h3>
-                <LyricList lyrics={data.song.lyrics} />
+                <LyricList lyrics={data.song.lyrics} refetch={refetch} />
                 <LyricCreate songId={this.props.params.id} />
               </div>
             );
