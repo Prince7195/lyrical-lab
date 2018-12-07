@@ -1,3 +1,12 @@
 .container {
   margin-top: 50px !important;
 }
+
+.material-icons {
+  cursor: pointer;
+}
+
+.collection-item {
+  display: flex;
+  justify-content: space-between;
+}

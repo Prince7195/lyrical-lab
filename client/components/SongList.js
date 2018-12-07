@@ -1,15 +1,19 @@
 import React, { Component } from "react";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { Link } from "react-router";
-import { query } from "../queries";
+import { query, deleteSongMutation } from "../queries";
 import { SongListItem } from "./SongListItem";
 
 export class SongList extends Component {
+  onDeleteSong(deleteSong, data, id, refetch) {
+    deleteSong({ variables: { id } }).then(() => refetch());
+  }
+
   render() {
     return (
       <div>
         <Query query={query}>
-          {({ loading, error, data }) => {
+          {({ loading, error, data, refetch }) => {
             if (loading) {
               return <h4>Loading...</h4>;
             }
@@ -19,7 +23,24 @@ export class SongList extends Component {
             return (
               <ul className="collection">
                 {data.songs.map(song => (
-                  <SongListItem key={song.id} title={song.title} />
+                  <Mutation mutation={deleteSongMutation}>
+                    {deleteSong => {
+                      return (
+                        <SongListItem
+                          key={song.id}
+                          onClick={() => {
+                            this.onDeleteSong(
+                              deleteSong,
+                              data,
+                              song.id,
+                              refetch
+                            );
+                          }}
+                          title={song.title}
+                        />
+                      );
+                    }}
+                  </Mutation>
                 ))}
               </ul>
             );
