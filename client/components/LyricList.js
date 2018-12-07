@@ -3,8 +3,18 @@ import { Mutation } from "react-apollo";
 import { likeLyricMutation } from "../queries";
 
 export class LyricList extends Component {
-  onLike(likeLyric, lyricId) {
-    likeLyric({ variables: { id: lyricId } }).then(() => {
+  onLike(likeLyric, lyricId, likes) {
+    likeLyric({
+      variables: { id: lyricId },
+      optimisticResponse: {
+        __typename: "Mutation",
+        likeLyric: {
+          id: lyricId,
+          __typename: "LyricType",
+          likes: likes + 1
+        }
+      }
+    }).then(() => {
       this.props.refetch();
     });
   }
@@ -19,7 +29,9 @@ export class LyricList extends Component {
                 return (
                   <LyricListItem
                     content={lyric.content}
-                    onClick={() => this.onLike(likeLyric, lyric.id)}
+                    onClick={() =>
+                      this.onLike(likeLyric, lyric.id, lyric.likes)
+                    }
                     likes={lyric.likes}
                   />
                 );
