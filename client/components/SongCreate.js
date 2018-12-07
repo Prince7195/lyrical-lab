@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { addSongMutation } from "../queries";
 import { Mutation } from "react-apollo";
 import { Link, hashHistory } from "react-router";
-import { query } from "../queries";
+import { fetchSongs } from "../queries";
 
 export class SongCreate extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export class SongCreate extends Component {
     event.preventDefault();
     addSong({
       variables: { title: this.state.title },
-      refetchQueries: [{ query }]
+      refetchQueries: [{ query: fetchSongs }]
     }).then(data => hashHistory.push("/"));
   }
 
