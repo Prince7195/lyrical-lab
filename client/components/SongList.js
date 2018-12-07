@@ -1,15 +1,8 @@
 import React, { Component } from "react";
-import gql from "graphql-tag";
 import { Query } from "react-apollo";
-
-const query = gql`
-  {
-    songs {
-      id
-      title
-    }
-  }
-`;
+import { Link } from "react-router";
+import { query } from "../queries";
+import { SongListItem } from "./SongListItem";
 
 export class SongList extends Component {
   render() {
@@ -26,14 +19,15 @@ export class SongList extends Component {
             return (
               <ul className="collection">
                 {data.songs.map(song => (
-                  <li className="collection-item" key={song.id}>
-                    {song.title}
-                  </li>
+                  <SongListItem key={song.id} title={song.title} />
                 ))}
               </ul>
             );
           }}
         </Query>
+        <Link to="/songs/new" className="btn-floating btn-large red right">
+          <i className="material-icons">add</i>
+        </Link>
       </div>
     );
   }

@@ -14,9 +14,15 @@ if (!MONGO_URI) {
 }
 
 mongoose.Promise = global.Promise;
-mongoose.connect(MONGO_URI);
+mongoose.connect(
+  MONGO_URI,
+  {
+    useMongoClient: true
+    /* other options */
+  }
+);
 mongoose.connection
-  .once("open", () => console.log("Connected to MongoLab instance."))
+  .once("openUri", () => console.log("Connected to MongoLab instance."))
   .on("error", error => console.log("Error connecting to MongoLab:", error));
 
 app.use(bodyParser.json());
