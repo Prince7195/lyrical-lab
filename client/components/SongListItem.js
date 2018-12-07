@@ -7,8 +7,8 @@ export const SongListItem = ({ songId, onClick, title }) => {
   return (
     <li className="collection-item">
       <Link to={`/songs/${songId}`}>{title}</Link>
-      <i className="material-icons" onClick={() => onClick()}>
-        delete
+      <i className="material-icons delete-icon" onClick={() => onClick()}>
+        delete_outline
       </i>
     </li>
   );

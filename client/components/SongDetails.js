@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { getSong } from "../queries";
 import { Query } from "react-apollo";
 import { Link } from "react-router";
+import { LyricCreate } from "./LyricCreate";
+import { LyricList } from "./LyricList";
 
 export class SongDetails extends Component {
   constructor(props) {
@@ -17,7 +19,14 @@ export class SongDetails extends Component {
               return <h4>Loading...</h4>;
             }
             if (error) console.log(error);
-            return <h3>{data.song.title}</h3>;
+            console.log(data);
+            return (
+              <div>
+                <h3>{data.song.title}</h3>
+                <LyricList lyrics={data.song.lyrics} />
+                <LyricCreate songId={this.props.params.id} />
+              </div>
+            );
           }}
         </Query>
       </div>
